@@ -118,26 +118,31 @@ button, input {
     margin: 0;
     font-size: 24px;
   }
+}
 
-  .send-btn {
-    width: 100%;
-    height: 55px;
-    background: #9dd558;
-    border-radius: 18px;
-    border: none;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: .3s;
-    &:hover {
-      background: lighten($color: #9dd558, $amount: 10%)
-    }
+.send-btn {
+  width: 100%;
+  height: 55px;
+  background: #9dd558;
+  border-radius: 18px;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+  &:hover {
+    background: lighten($color: #9dd558, $amount: 10%)
+  }
+
+  &:darken {
+    background: darken($color: #9dd558, $amount: 10%)
   }
 }
 
 .cart-items {
   flex: 1;
+  overflow-y: auto
 }
 
 .cart-item {
@@ -177,6 +182,21 @@ button, input {
 .cart-footer {
   display: flex;
   flex-direction: column;
+
+  .send-btn {
+    position: relative;
+    img {
+      position: absolute;
+      right: 30px;
+      top: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
+    &:hover {
+      img {
+        transform: translateX(5px);
+      }
+    }
+  }
 }
 
 .cart-total {
