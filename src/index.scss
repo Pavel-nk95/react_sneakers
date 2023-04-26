@@ -10,7 +10,8 @@ code {
     monospace;
 }
 
-button, input {
+button,
+input {
   font-family: 'Inter', system-ui, sans-serif;
 }
 
@@ -24,11 +25,13 @@ button, input {
 
 .header {
   border-bottom: 1px solid #f4f4f4;
+
   img {
     margin-right: 15px;
   }
 
-  h3, p {
+  h3,
+  p {
     margin: 0;
   }
 }
@@ -37,16 +40,6 @@ button, input {
   h1 {
     margin: 0;
   }
-}
-
-.button {
-  background: #ffffff;
-  border: 1px solid #f2f2f2;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
 }
 
 .search {
@@ -100,6 +93,7 @@ button, input {
   font-weight: 500;
   cursor: pointer;
   transition: background .2s ease-in-out;
+
   &:hover {
     background: lighten($color: #9dd558, $amount: 10%)
   }
@@ -127,7 +121,7 @@ button, input {
     background-repeat: no-repeat;
     margin-right: 20px;
   }
-  
+
   p {
     font-size: 16px;
     margin: 0;
@@ -154,12 +148,14 @@ button, input {
 
   .send-btn {
     position: relative;
+
     img {
       position: absolute;
       right: 30px;
       top: 20px;
       transition: transform 0.3s ease-in-out;
     }
+
     &:hover {
       img {
         transform: translateX(5px);
