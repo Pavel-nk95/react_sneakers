@@ -7,6 +7,7 @@ import axios from 'axios';
 
 function App() {
   const [items, setItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]);
   const [cartOpened, setCartOpened] = useState(false);
 
   useEffect(() => {
@@ -17,9 +18,13 @@ function App() {
       })
   }, []);
 
+  const onAddToCart = (data) => {
+    setCartItems(prev => [...prev, data]);
+  };
+
   return (
     <div className="wrapper clear">
-      {cartOpened ? <Drawer onClose={() => setCartOpened(false)} /> : null}
+      {cartOpened ? <Drawer onClose={() => setCartOpened(false)} cartItems={cartItems} /> : null}
       <Header onClickCart={() => setCartOpened(true)} />
       <section className="content p-40">
         <div className="d-flex align-center mb-40 justify-between">
@@ -30,9 +35,9 @@ function App() {
           </div>
         </div>
         <div className="d-flex cards flex-wrap">
-          {items.map(({ title, imgUrl, price }) => {
+          {items.map(({ title, imgUrl, price }, index) => {
             return (
-              <Card title={title} price={price} imgUrl={imgUrl} onClickPlus={() => console.log('!!!')} onClickFavorite={() => console.log('???')} />
+              <Card key={index} title={title} price={price} imgUrl={imgUrl} onClickPlus={onAddToCart} onClickFavorite={() => console.log('???')} />
             )
           })}
         </div>

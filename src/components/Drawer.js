@@ -1,4 +1,4 @@
-function Drawer({ onClose }) {
+function Drawer({ onClose, cartItems = [] }) {
   return (
     <div className="overlay">
       <div className="drawer">
@@ -14,39 +14,24 @@ function Drawer({ onClose }) {
           />
         </h2>
         <ul className="cart-items mt-20">
-          <li className="cart-item d-flex align-center p-10 mb-20">
-            <div
-              style={{ backgroundImage: 'url(/images/sneakers/1.png)' }}
-              className="cartItemImg"></div>
-            <div className="mr-20">
-              <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <b>12 999 руб.</b>
-            </div>
-            <img
-              className="btn-remove"
-              width={32}
-              height={32}
-              src="/images/btn-remove.svg"
-              alt="remove"
-            />
-          </li>
-
-          <li className="cart-item d-flex align-center p-10 mb-20">
-            <div
-              style={{ backgroundImage: 'url(/images/sneakers/2.png)' }}
-              className="cartItemImg"></div>
-            <div className="mr-20">
-              <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <b>12 999 руб.</b>
-            </div>
-            <img
-              className="btn-remove"
-              width={32}
-              height={32}
-              src="/images/btn-remove.svg"
-              alt="remove"
-            />
-          </li>
+          {cartItems.map(({ imgUrl, price, title }) => (
+            <li className="cart-item d-flex align-center p-10 mb-20">
+              <div
+                style={{ backgroundImage: `url(${imgUrl})` }}
+                className="cartItemImg"></div>
+              <div className="mr-20">
+                <p className="mb-5">{title}</p>
+                <b>{price}</b>
+              </div>
+              <img
+                className="btn-remove"
+                width={32}
+                height={32}
+                src="/images/btn-remove.svg"
+                alt="remove"
+              />
+            </li>
+          ))}
         </ul>
         <div className="cart-footer">
           <ul className="cart-total mb-20">
