@@ -10,6 +10,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     axios.get('https://6448eec5b88a78a8f0f7e89a.mockapi.io/items')
@@ -33,6 +34,10 @@ function App() {
     setSearchValue(value);
   };
 
+  const onAddToFavorite = () => {
+
+  };
+
   return (
     <div className="wrapper clear">
       {cartOpened ? <Drawer onClose={() => setCartOpened(false)} cartItems={cartItems} onRemoveItem={onRemoveFromCart} /> : null}
@@ -49,7 +54,7 @@ function App() {
         <div className="d-flex cards flex-wrap">
           {items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase())).map(({ title, imgUrl, price }, index) => {
             return (
-              <Card key={index} title={title} price={price} imgUrl={imgUrl} onClickPlus={onAddToCart} onClickFavorite={() => console.log('TO DO  ')} />
+              <Card key={index} title={title} price={price} imgUrl={imgUrl} onClickPlus={onAddToCart} />
             )
           })}
         </div>
