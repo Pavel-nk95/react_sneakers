@@ -1,4 +1,4 @@
-function Drawer({ onClose, cartItems = [] }) {
+function Drawer({ onClose, cartItems = [], onRemoveItem }) {
   return (
     <div className="overlay">
       <div className="drawer">
@@ -14,8 +14,8 @@ function Drawer({ onClose, cartItems = [] }) {
           />
         </h2>
         <ul className="cart-items mt-20">
-          {cartItems.map(({ imgUrl, price, title }) => (
-            <li className="cart-item d-flex align-center p-10 mb-20">
+          {cartItems.map(({ imgUrl, price, title, id }) => (
+            <li key={id} className="cart-item d-flex align-center p-10 mb-20">
               <div
                 style={{ backgroundImage: `url(${imgUrl})` }}
                 className="cartItemImg"></div>
@@ -29,6 +29,7 @@ function Drawer({ onClose, cartItems = [] }) {
                 height={32}
                 src="/images/btn-remove.svg"
                 alt="remove"
+                onClick={() => onRemoveItem(id)}
               />
             </li>
           ))}
