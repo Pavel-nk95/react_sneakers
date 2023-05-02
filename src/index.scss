@@ -26,6 +26,12 @@ input {
 .header {
   border-bottom: 1px solid #f4f4f4;
 
+  .headerLeft {
+    a {
+      display: flex;
+    }
+  }
+
   img {
     margin-right: 15px;
   }
