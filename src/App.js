@@ -6,8 +6,7 @@ import axios from 'axios';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import { Route, Routes } from 'react-router-dom';
-
-const AppContext = React.createContext({});
+import AppContext from "./context";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -63,15 +62,19 @@ function App() {
     }
   };
 
+  const isItemAdded = (id) => {
+    return cartItems.some((obj) => Number(obj.id) === Number(id))
+  };
+
   return (
     <div className="wrapper clear">
       {cartOpened ? <Drawer onClose={() => setCartOpened(false)} cartItems={cartItems} onRemoveItem={onRemoveFromCart} /> : null}
-      <AppContext.Provider value={{ items, cartItems, favorites }}>
+      <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded }}>
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route path='/' exact element={<Home cartItems={cartItems} searchValue={searchValue} setSearchValue={setSearchValue} onChangeSearchInput={onChangeSearchInput} items={items} onAddToCart={onAddToCart} onAddToFavorite={onAddToFavorite} isLoading={isLoading} />}>
           </Route>
-          <Route path='/favorites' element={<Favorites items={favorites} onAddToFavorite={onAddToFavorite} />} exact>
+          <Route path='/favorites' element={<Favorites onAddToFavorite={onAddToFavorite} />} exact>
           </Route>
         </Routes>
       </AppContext.Provider>
