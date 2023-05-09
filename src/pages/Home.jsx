@@ -1,10 +1,10 @@
 import Card from '../components/Card/Card';
 
-function Home({ searchValue, setSearchValue, onChangeSearchInput, items, onAddToCart, onAddToFavorite, isLoading }) {
+function Home({ searchValue, setSearchValue, onChangeSearchInput, items, onAddToCart, isLoading }) {
 
   const renderItems = () => {
     const filteredItems = items && items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
-    return ((isLoading ? [...Array(12)] : filteredItems).map((item, index) => (<Card key={index} onClickPlus={onAddToCart} onFavorite={(obj) => onAddToFavorite(obj)} loading={isLoading} {...item} />)));
+    return ((isLoading ? [...Array(12)] : filteredItems).map((item, index) => (<Card key={index} onClickPlus={onAddToCart} loading={isLoading} {...item} />)));
   };
 
   return (
