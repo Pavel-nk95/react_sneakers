@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import { Route, Routes } from 'react-router-dom';
 import AppContext from "./context";
+import Orders from './pages/Orders';
 
 function App() {
   const [items, setItems] = useState([]);
@@ -34,9 +35,10 @@ function App() {
 
   const onAddToCart = (data) => {
     try {
-      if (cartItems.find((item) => Number(item.id) === Number(data.id))) {
-        setCartItems(prev => prev.filter((item) => Number(item.id) !== Number(data.id)));
-        axios.delete(`https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart/${data.id}`);
+      if (cartItems.find((item) => item.parentId === data.parentId)) {
+        setCartItems(prev => prev.filter((item) => item.parentId !== data.parentId));
+        const [currentCartItem] = cartItems.filter((item) => item.parentId === data.parentId);
+        axios.delete(`https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart/${currentCartItem.id}`);
       } else {
         axios.post('https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart', data);
         setCartItems(prev => [...prev, data]);
@@ -57,9 +59,9 @@ function App() {
   };
 
   const onAddToFavorite = (data) => {
-    if (favorites.find((obj) => Number(obj.id) === Number(data.id))) {
-      localStorage.setItem('favorites', JSON.stringify(favorites.filter((obj) => Number(obj.id) !== Number(data.id))));
-      setFavorites(prev => prev.filter((item) => Number(item.id) !== Number(data.id)));
+    if (favorites.find((obj) => obj.parentId === data.parentId)) {
+      localStorage.setItem('favorites', JSON.stringify(favorites.filter((obj) => obj.parentId !== data.parentId)));
+      setFavorites(prev => prev.filter((item) => item.parentId !== data.parentId));
     } else {
       localStorage.setItem('favorites', JSON.stringify(favorites.length > 0 ? [...favorites, data] : [data]));
       setFavorites((prev) => [...prev, data]);
@@ -67,7 +69,7 @@ function App() {
   };
 
   const isItemAdded = (id) => {
-    return cartItems.some((obj) => Number(obj.id) === Number(id))
+    return cartItems.some((obj) => Number(obj.parentId) === Number(id))
   };
 
   return (
@@ -79,6 +81,8 @@ function App() {
           <Route path='/' exact element={<Home cartItems={cartItems} searchValue={searchValue} setSearchValue={setSearchValue} onChangeSearchInput={onChangeSearchInput} items={items} onAddToCart={onAddToCart} onAddToFavorite={onAddToFavorite} isLoading={isLoading} />}>
           </Route>
           <Route path='/favorites' element={<Favorites />} exact>
+          </Route>
+          <Route path='/orders' element={<Orders />} exact>
           </Route>
         </Routes>
       </AppContext.Provider>

@@ -4,17 +4,17 @@ import ContentLoader from "react-content-loader"
 
 import AppContext from "../../context";
 
-function Card({ id, title, price, imgUrl, onClickPlus, favorited = false, loading = false }) {
+function Card({ parentId, title, price, imgUrl, onClickPlus, favorited = false, loading = false }) {
   const [isFavorite, setIsFavorite] = useState(favorited);
   const { isItemAdded, onAddToFavorite } = useContext(AppContext);
 
   const onPlus = () => {
-    onClickPlus({ title, price, imgUrl, id });
+    onClickPlus({ title, price, imgUrl, parentId });
   }
 
   const onClickFavorite = () => {
     setIsFavorite(!isFavorite);
-    onAddToFavorite({ title, price, imgUrl, id });
+    onAddToFavorite({ title, price, imgUrl, parentId });
   };
 
   return (
@@ -41,9 +41,9 @@ function Card({ id, title, price, imgUrl, onClickPlus, favorited = false, loadin
           <div className="d-flex justify-between align-center">
             <div className="d-flex flex-column">
               <span>Цена: </span>
-              <b>{price}</b>
+              <b>{price} руб.</b>
             </div>
-            <img className={styles.plus} onClick={onPlus} src={isItemAdded(id) ? "/images/checked-btn.svg" : "/images/plus-btn.svg"} alt="plus" />
+            <img className={styles.plus} onClick={onPlus} src={isItemAdded(parentId) ? "/images/checked-btn.svg" : "/images/plus-btn.svg"} alt="plus" />
           </div></>
         )}
     </div>

@@ -1,12 +1,10 @@
 import { useState, useContext } from "react";
 import Info from "./Info";
-import AppContext from "../context";
+import { useCart } from '../hooks/useCart';
 
-function Drawer({ onClose, cartItems = [], onRemoveItem }) {
+function Drawer({ onClose, onRemoveItem }) {
+  const { cartItems, setCartItems, totalPrice } = useCart();
   const [isOrderComplete, setIsOrderComplete] = useState(false);
-  const { setCartItems } = useContext(AppContext);
-
-  console.log(setCartItems);
 
   const onClickOrder = () => {
     setIsOrderComplete(true);
@@ -27,15 +25,16 @@ function Drawer({ onClose, cartItems = [], onRemoveItem }) {
             onClick={onClose}
           />
         </h2>
-        {cartItems.length > 0 ? <><ul className="cart-items mt-20">
-          {cartItems.map(({ imgUrl, price, title, id }) => (
-            <li key={id} className="cart-item d-flex align-center p-10 mb-20">
+        {cartItems.length > 0 ? (<><ul className="cart-items mt-20">
+          {cartItems.map(({ imgUrl, price, title, id, parentId }) => (
+            <li key={parentId} className="cart-item d-flex align-center p-10 mb-20">
               <div
                 style={{ backgroundImage: `url(${imgUrl})` }}
-                className="cartItemImg"></div>
+                className="cartItemImg">
+              </div>
               <div className="mr-20">
                 <p className="mb-5">{title}</p>
-                <b>{price}</b>
+                <b>{price} руб.</b>
               </div>
               <img
                 className="btn-remove"
@@ -53,19 +52,19 @@ function Drawer({ onClose, cartItems = [], onRemoveItem }) {
               <li className="d-flex align-center mb-10">
                 <span>Итого: </span>
                 <div></div>
-                <b>21 498 руб.</b>
+                <b>{totalPrice} руб.</b>
               </li>
               <li className="d-flex align-center">
                 <span>Налог 5%:</span>
                 <div></div>
-                <b>1074 руб. </b>
+                <b>{(totalPrice / 100) * 5} руб.</b>
               </li>
             </ul>
             <button onClick={onClickOrder} className="send-btn">
               Оформить заказ <img src="/images/arrow.svg" alt="arrow" />
             </button>
           </div>
-        </>
+        </>)
           :
           <Info title={isOrderComplete ? "Заказ оформлен!" : "Корзина пустая"}
             description={isOrderComplete ? "Вы успешно оформили заказ!" : "Добавьте хотя бы один товар в заказ"}
