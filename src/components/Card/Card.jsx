@@ -43,7 +43,7 @@ function Card({ parentId, title, price, imgUrl, onClickPlus, favorited = false, 
               <span>Цена: </span>
               <b>{price} руб.</b>
             </div>
-            <img className={styles.plus} onClick={onPlus} src={isItemAdded(parentId) ? "/images/checked-btn.svg" : "/images/plus-btn.svg"} alt="plus" />
+            {onClickPlus && (<img className={styles.plus} onClick={onPlus} src={isItemAdded(parentId) ? "/images/checked-btn.svg" : "/images/plus-btn.svg"} alt="plus" />)}
           </div></>
         )}
     </div>

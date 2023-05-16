@@ -1,14 +1,18 @@
 import { useState, useContext } from "react";
 import Info from "./Info";
 import { useCart } from '../hooks/useCart';
+import AppContext from "../context";
 
 function Drawer({ onClose, onRemoveItem }) {
   const { cartItems, setCartItems, totalPrice } = useCart();
+  const { orders, setOrders } = useContext(AppContext);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
 
   const onClickOrder = () => {
     setIsOrderComplete(true);
-    setCartItems([]);
+    localStorage.setItem('orders', JSON.stringify(orders.length > 0 ? [...orders, ...cartItems] : [...cartItems]));
+    setOrders(prev => [...prev, ...cartItems]);
+    setCartItems(() => []);
   };
 
   return (

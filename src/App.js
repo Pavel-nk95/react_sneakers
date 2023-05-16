@@ -15,6 +15,7 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [favorites, setFavorites] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +27,14 @@ function App() {
       } else {
         setFavorites(JSON.parse(localStorage.getItem("favorites")));
       }
+
+
+        if (!JSON.parse(localStorage.getItem("orders"))) {
+          localStorage.setItem('orders', JSON.stringify(orders));
+        } else {
+          setOrders(JSON.parse(localStorage.getItem("orders")));
+        }
+
       setCartItems(cartResponse.data);
       setItems(itemsResponse.data);
     }
@@ -74,7 +83,7 @@ function App() {
 
   return (
     <div className="wrapper clear">
-      <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems }}>
+      <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems, orders, setOrders }}>
         {cartOpened ? <Drawer onClose={() => setCartOpened(false)} cartItems={cartItems} onRemoveItem={onRemoveFromCart} /> : null}
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
@@ -82,7 +91,7 @@ function App() {
           </Route>
           <Route path='/favorites' element={<Favorites />} exact>
           </Route>
-          <Route path='/orders' element={<Orders />} exact>
+          <Route path='/orders' element={<Orders orders={orders} />} exact>
           </Route>
         </Routes>
       </AppContext.Provider>

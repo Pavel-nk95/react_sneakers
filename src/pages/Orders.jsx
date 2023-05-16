@@ -1,17 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Card from '../components/Card/Card';
 import AppContext from "../context";
 
 function Orders() {
-  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    if (!JSON.parse(localStorage.getItem("orders"))) {
-      localStorage.setItem('orders', JSON.stringify(orders));
-    } else {
-      setOrders(JSON.parse(localStorage.getItem("orders")));
-    }
-  }, []);
+  const { orders } = useContext(AppContext);
 
   return (
     <section className="content p-40">
@@ -20,9 +13,12 @@ function Orders() {
       </div>
       <div className="d-flex cards flex-wrap">
         {
-          [].map((item, index) => {
+          orders.map((item, index) => {
             return (
-              <Card />
+              <Card 
+                key={index}
+                {...item}
+             />
             )
           })}
       </div>
