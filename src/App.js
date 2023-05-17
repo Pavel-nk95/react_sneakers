@@ -96,9 +96,9 @@ function App() {
         <Routes>
           <Route path='/' exact element={<Home cartItems={cartItems} searchValue={searchValue} setSearchValue={setSearchValue} onChangeSearchInput={onChangeSearchInput} items={items} onAddToCart={onAddToCart} onAddToFavorite={onAddToFavorite} isLoading={isLoading} />}>
           </Route>
-          <Route path='/favorites' element={<Favorites />} exact>
+          <Route path='favorites' element={<Favorites />} exact>
           </Route>
-          <Route path='/orders' element={<Orders orders={orders} />} exact>
+          <Route path='orders' element={<Orders orders={orders} />} exact>
           </Route>
         </Routes>
       </AppContext.Provider>
