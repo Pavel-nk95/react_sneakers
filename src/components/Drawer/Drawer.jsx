@@ -27,7 +27,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
             className="btn-remove cu-p"
             width={32}
             height={32}
-            src="/images/btn-remove.svg"
+            src="images/btn-remove.svg"
             alt="close"
             onClick={onClose}
           />
@@ -47,7 +47,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
                 className="btn-remove"
                 width={32}
                 height={32}
-                src="/images/btn-remove.svg"
+                src="images/btn-remove.svg"
                 alt="remove"
                 onClick={() => onRemoveItem(id)}
               />
@@ -68,7 +68,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
               </li>
             </ul>
             <button onClick={onClickOrder} className="send-btn">
-              Оформить заказ <img src="/images/arrow.svg" alt="arrow" />
+              Оформить заказ <img src="images/arrow.svg" alt="arrow" />
             </button>
           </div>
         </>)

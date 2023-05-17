@@ -12,8 +12,8 @@ function Home({ searchValue, setSearchValue, onChangeSearchInput, items, onAddTo
       <div className="d-flex align-center mb-40 justify-between">
         <h1>{searchValue ? `Поиск по запросу: '${searchValue}'` : "Все кроссовки"}</h1>
         <div className="search d-flex">
-          <img src="/images/search.svg" alt="search" />
-          {searchValue && <img onClick={() => setSearchValue('')} className="clear cu-p" src="/images/btn-remove.svg" alt="Clear"></img>}
+          <img src="images/search.svg" alt="search" />
+          {searchValue && <img onClick={() => setSearchValue('')} className="clear cu-p" src="images/btn-remove.svg" alt="Clear"></img>}
           <input onChange={onChangeSearchInput} value={searchValue} placeholder="Поиск..." />
         </div>
       </div>
