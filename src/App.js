@@ -1,5 +1,5 @@
 import Header from './components/Header';
-import Drawer from './components/Drawer';
+import Drawer from './components/Drawer/Drawer';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -20,23 +20,26 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const cartResponse = await axios.get('https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart');
-      const itemsResponse = await axios.get('https://6448eec5b88a78a8f0f7e89a.mockapi.io/items');
-      if (!JSON.parse(localStorage.getItem("favorites"))) {
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-      } else {
-        setFavorites(JSON.parse(localStorage.getItem("favorites")));
-      }
-
-
-        if (!JSON.parse(localStorage.getItem("orders"))) {
-          localStorage.setItem('orders', JSON.stringify(orders));
+      try {
+        const [ cartResponse, itemsResponse ] = await Promise.all([axios.get('https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart'), axios.get('https://6448eec5b88a78a8f0f7e89a.mockapi.io/items')]);
+        if (!JSON.parse(localStorage.getItem("favorites"))) {
+          localStorage.setItem('favorites', JSON.stringify(favorites));
         } else {
-          setOrders(JSON.parse(localStorage.getItem("orders")));
+          setFavorites(JSON.parse(localStorage.getItem("favorites")));
         }
-
-      setCartItems(cartResponse.data);
-      setItems(itemsResponse.data);
+  
+  
+          if (!JSON.parse(localStorage.getItem("orders"))) {
+            localStorage.setItem('orders', JSON.stringify(orders));
+          } else {
+            setOrders(JSON.parse(localStorage.getItem("orders")));
+          }
+  
+        setCartItems(cartResponse.data);
+        setItems(itemsResponse.data);
+      } catch (error) {
+        console.error(error);
+      }
     }
     fetchData();
     setIsLoading(false);
@@ -58,8 +61,12 @@ function App() {
   };
 
   const onRemoveFromCart = (id) => {
-    axios.delete(`https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart/${id}`);
-    setCartItems(prev => prev.filter(item => item.id !== id));
+    try {
+      axios.delete(`https://6448eec5b88a78a8f0f7e89a.mockapi.io/cart/${id}`);
+      setCartItems(prev => prev.filter(item => item.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onChangeSearchInput = (event) => {
@@ -84,7 +91,7 @@ function App() {
   return (
     <div className="wrapper clear">
       <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems, orders, setOrders }}>
-        {cartOpened ? <Drawer onClose={() => setCartOpened(false)} cartItems={cartItems} onRemoveItem={onRemoveFromCart} /> : null}
+        <Drawer onClose={() => setCartOpened(false)} cartItems={cartItems} onRemoveItem={onRemoveFromCart} opened={cartOpened} />
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route path='/' exact element={<Home cartItems={cartItems} searchValue={searchValue} setSearchValue={setSearchValue} onChangeSearchInput={onChangeSearchInput} items={items} onAddToCart={onAddToCart} onAddToFavorite={onAddToFavorite} isLoading={isLoading} />}>

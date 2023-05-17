@@ -1,9 +1,12 @@
 import { useState, useContext } from "react";
-import Info from "./Info";
-import { useCart } from '../hooks/useCart';
-import AppContext from "../context";
 
-function Drawer({ onClose, onRemoveItem }) {
+import { useCart } from '../../hooks/useCart';
+import AppContext from "../../context";
+import Info from "../Info";
+
+import styles from './Drawer.module.scss'
+
+function Drawer({ onClose, onRemoveItem, opened }) {
   const { cartItems, setCartItems, totalPrice } = useCart();
   const { orders, setOrders } = useContext(AppContext);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
@@ -16,8 +19,8 @@ function Drawer({ onClose, onRemoveItem }) {
   };
 
   return (
-    <div className="overlay">
-      <div className="drawer">
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+      <div className={styles.drawer}>
         <h2 className="d-flex justify-between">
           Корзина
           <img
